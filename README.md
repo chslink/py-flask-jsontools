@@ -142,7 +142,7 @@ the representation.
 You'll definitely want to subclass it to support other types, e.g. dates and times:
 
 ```python
-from flask.ext.jsontools import DynamicJSONEncoder
+from flask_jsontools import DynamicJSONEncoder
 
 class ApiJSONEncoder(DynamicJSONEncoder):
     def default(self, o):
@@ -155,7 +155,7 @@ class ApiJSONEncoder(DynamicJSONEncoder):
             return list(o)
         
         # Fallback
-        return super(DynamicJSONEncoder, self).default(o)
+        return super(ApiJSONEncoder, self).default(o)
 ```
 
 Now, just install the encoder to your Flask:
@@ -164,7 +164,7 @@ Now, just install the encoder to your Flask:
 from flask import Flask
 
 app = Flask(__name__)
-app.json_encoder = DynamicJSONEncoder
+app.json_encoder = ApiJSONEncoder
 ```
 
 
@@ -182,9 +182,9 @@ Example:
 
 ```python
 from sqlalchemy.ext.declarative import declarative_base
-from flask.ext.jsontools import JsonSerializableBase
+from flask_jsontools import JsonSerializableBase
 
-Base = declarative_base(cls=(JsonSerializableBase,))
+Base = declarative_base(cls=(JsonSerializableBase,db.Model))
 
 class User(Base):
     #...
